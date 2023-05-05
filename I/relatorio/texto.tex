@@ -33,5 +33,48 @@
   % \restoregeometry
 
 \end{titlepage}
+
+\renewcommand{\d}[2]{d_{#1}^{#2}}
+\newcommand{\p}[2]{p_{#1}^{#2}}
+\newcolumntype{R}{>{$}r<{$}}
+\newcolumntype{C}{>{$}c<{$}}
+\newcolumntype{L}{>{$}l<{$}}
+
 \section{a)}
-\blindtext
+Sendo $D_i$ o nível de produção do doce $i$ em milhares de \unit{\kilogram}, $d_i^+$ o desvio que significa o valor em excesso para atingir a meta $i$, $d_i^-$ o desvio que significa o valor em falta para atinger a meta $i$, e $p_i^\pm$ o peso associado ao desvio $d_i^\pm$, meu modelo será o seguinte:
+
+\begin{tabular}[t]{l r}
+  minimizar & $f(\d1-, \d2-, \d2+, \d3+; \p1-, \p2-, \p2+, \p3+)$ \\
+  sujeito a & \\
+            &
+  %12D_1 + 9D_2 + 5D_3 + \d1-       \geq 125 \\
+  %5D_1 + 2D_2 + 4D_3 + \d2- - \d2+ = 60 \\
+  %5D_1 + 5D_2 + 8D_3 - \d3+        \leq 55
+  %D_1 \leq 6
+  %D_2 \geq 2
+  %D_3 \geq 1
+  \begin{tabular}[t]{R C R C R C R C R C R C L}
+    12D_1  & + & 9D_2  & + & 5D_3  & + & \d1-  &         &          & \geq &125          \\
+    5D_1   & + & 2D_2  & + & 4D_3  & + & \d2-  & -       & \d2+     & =    &60           \\
+    5D_1   & + & 5D_2  & + & 8D_3  &   &       & -       & \d3+     & \leq &55           \\
+    D_1    &   &       &   &       &   &       &         &          & \leq &6            \\
+           &   &  D_2  &   &       &   &       &         &          & \geq &2            \\
+           &   &       &   &  D_3  &   &       &         &          & \geq &1            \\
+           &   &       &   &       &   &       & d_i^\pm,&  D_i     & \geq &0            \\
+           &   &       &   &       &   &       &         &  d_2^\pm & \in  &\mathcal{Z}  \\
+
+  \end{tabular}
+ \end{tabular}\\
+Em outros termos, o nosso objetivo vai ser minimizar uma combinação dos desvios pesados apropriada, com o objetivo de não derivar muito das 3 metas, cumprindo também as restrições de produções mínimas e máximas dos vários doces. As 3 primeiras restrições representam as metas do modelo, sendo a primeira uma meta de lucro mínimo, a segunda de uma meta de manter o atual número de empregados, e a terceira de uma meta de investimento máximo; estas estão representadas de acordo com a produção de cada doce que cada meta contribui para. Ou seja, por exemplo, o lucro vai ser:
+$$
+\text{lucro} = 12D_1 + 9D_2 + 5D_3 + \d1-
+$$,
+sendo $D_i$ a produção do doce $i$ em milhares de \unit{\kilogram} e $\d1-$ o desvio negativo da meta de lucro. Se $\d1-$ for $0$, então a meta de lucro é cumprida.
+
+As seguintes 3 metas representam o máximo de produção do doce $D_1$, e os mínimos de produção dos doces $D_2$ e $D_3$, em milhares de \unit{\kilogram}. A penúltima restriçã indica a não negatividade da produção e dos desvios, e a última restrição indica que o desvio da meta de manter o atual número de empregados tem de ser um número inteiro, sendo que o número de empregados é um número inteiro. Esta última restrição indica também que $5D_1 + 2D_2 + 4D_3$ vai ser inteiro também. 
+
+Antes de apresentar um exemplo de função objetivo (a que vai ser aplicada em \ref{sec:b}), [TODO Pesos]
+
+Um exemplo de função objetivo que pode ser aplicada neste modelo é a soma dos desvios pesados, ou seja:
+
+\section{b)} \label{sec:b}
