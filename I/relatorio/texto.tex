@@ -73,7 +73,10 @@ sendo $D_i$ a produção do doce $i$ em milhares de \unit{\kilogram} e $\d1-$ o 
 
 As seguintes 3 metas representam o máximo de produção do doce $D_1$, e os mínimos de produção dos doces $D_2$ e $D_3$, em milhares de \unit{\kilogram}. A penúltima restriçã indica a não negatividade da produção e dos desvios, e a última restrição indica que o desvio da meta de manter o atual número de empregados tem de ser um número inteiro, sendo que o número de empregados é um número inteiro. Esta última restrição indica também que $5D_1 + 2D_2 + 4D_3$ vai ser inteiro também. 
 
-Antes de apresentar um exemplo de função objetivo (a que vai ser aplicada em \ref{sec:b}), [TODO Pesos]
+Antes de apresentar um exemplo de função objetivo (a que vai ser aplicada em \ref{sec:b}); o enunciado refere os pesos de penalização de cada desvio. Enquanto que $\p1- = 5$, e $p3+ = 5$ são pesos explícitos e diretos, os pesos dados pelo agente de decisão para a segunda meta são para cada 5 trabalhadores. Como este é um problema linear, os pesos vão ser transformados para 1 trabalhador invés. Ou seja:
+$$
+\p2- = \frac{4}{5} = 0,8 \land \p2+ = \frac{10}{5} = 2
+$$
 
 Um exemplo de função objetivo que pode ser aplicada neste modelo é a soma dos desvios pesados, ou seja:
 
