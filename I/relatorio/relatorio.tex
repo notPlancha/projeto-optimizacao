@@ -37,6 +37,7 @@
     \usepackage{parskip}
     \usepackage[defaultsans,oldstyle,scale=0.95]{opensans}
     \usepackage[lining]{ebgaramond}
+    %\usepackage{ebgaramond-maths}
     \usepackage{textcomp}
     \usepackage{siunitx}
     \usepackage[tableposition=above]{caption}
@@ -44,13 +45,34 @@
     \usepackage{tabulary}
     \usepackage{blindtext}
     \usepackage{icomma}
-
+    \usepackage{fixmath}
+    \usepackage{cleveref}
+    \usepackage{letltxmacro}
+    \usepackage{currency}
+    \usepackage{amssymb}
+    \usepackage{mathabx}
     % \usepackage{tocloft} 
 % }
+% to fix left and right spacing 
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+
+% lower \veebar
+\DeclareMathOperator{\xor}{\raisebox{-0.4ex}{{$\veebar$}}}
 
 % \tocloftpagestyle{fancy}
 % \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}} % for chapters
 %\renewcommand{\cftdot}{.}
+\DeclareSIUnit{\bits}{bits}
+\DeclareSIUnit{\grams}{\gram}
+
+%v \usepackage{letltxmacro}
+%v \LetLtxMacro{\oldsection}{\section}
+%v \renewcommand{\section}[2][]{\oldsection[#1]{#2}\index{#1}\label{sec:#1}}
+
 \DeclareTOCStyleEntry{dottedtocline}{section}
 
 \addto\captionsportuguese{
@@ -84,7 +106,7 @@
   }
 \makeatother
 
-\newcommand*{\myalign}[2]{\multicolumn{1}{#1}{#2}}
+\newcommand*{\changealign}[2]{\multicolumn{1}{#1}{#2}}
 \sectionfont{\vspace{6pt}\scshape} % \section{} styling
 \subsectionfont{\bfseries} % \subsection{} styling
 \subsubsectionfont{\itshape} % \subsubsection{} styling
@@ -100,10 +122,10 @@
 
 \geometry{
 	paper=a4paper, % Paper size, change to letterpaper for US letter size
-	top=2.5cm, % Top margin
-	bottom=3cm, % Bottom margin
-	left=3cm, % Left margin
-	right=3cm, % Right margin
+	top=2cm, % Top margin
+	bottom=4cm, % Bottom margin, doesnt seem to do anything tbh
+	left=2.5cm, % Left margin
+	right=2.5cm, % Right margin
 	headheight=0.75cm, % Header height
 	footskip=1.5cm, % Space from the bottom margin to the baseline of the footer
 	headsep=0.75cm, % Space from the top margin to the baseline of the header

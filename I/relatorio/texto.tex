@@ -36,9 +36,7 @@
 
 \renewcommand{\d}[2]{d_{#1}^{#2}}
 \newcommand{\p}[2]{p_{#1}^{#2}}
-\newcolumntype{R}{>{$}r<{$}}
-\newcolumntype{C}{>{$}c<{$}}
-\newcolumntype{L}{>{$}l<{$}}
+\newcolumntype{v}[1]{>{$}{#1}<{$}}
 
 \section{a)}
 Sendo $D_i$ o nível de produção do doce $i$ em milhares de \unit{\kilogram}, $d_i^+$ o desvio que significa o valor em excesso para atingir a meta $i$, $d_i^-$ o desvio que significa o valor em falta para atinger a meta $i$, e $p_i^\pm$ o peso associado ao desvio $d_i^\pm$, meu modelo será o seguinte:
@@ -53,7 +51,8 @@ Sendo $D_i$ o nível de produção do doce $i$ em milhares de \unit{\kilogram}, 
   %D_1 \leq 6
   %D_2 \geq 2
   %D_3 \geq 1
-  \begin{tabular}[t]{R C R C R C R C R C R C L}
+  \begin{tabular}[t]{vr vc vr vc vr vc vr vc vr vc vl}
+    % R    & C & R     & C & R R   & C &   R   &   C     &    R     &  C   & L \\
     12D_1  & + & 9D_2  & + & 5D_3  & + & \d1-  &         &          & \geq &125          \\
     5D_1   & + & 2D_2  & + & 4D_3  & + & \d2-  & -       & \d2+     & =    &60           \\
     5D_1   & + & 5D_2  & + & 8D_3  &   &       & -       & \d3+     & \leq &55           \\
@@ -61,10 +60,11 @@ Sendo $D_i$ o nível de produção do doce $i$ em milhares de \unit{\kilogram}, 
            &   &  D_2  &   &       &   &       &         &          & \geq &2            \\
            &   &       &   &  D_3  &   &       &         &          & \geq &1            \\
            &   &       &   &       &   &       & d_i^\pm,&  D_i     & \geq &0            \\
-           &   &       &   &       &   &       &         &  d_2^\pm & \in  &\mathcal{Z}  \\
+           &   &       &   &       &   &       &         &  d_2^\pm & \in  &\mathbb{Z}  \\
 
   \end{tabular}
- \end{tabular}\\
+ \end{tabular}
+
 Em outros termos, o nosso objetivo vai ser minimizar uma combinação dos desvios pesados apropriada, com o objetivo de não derivar muito das 3 metas, cumprindo também as restrições de produções mínimas e máximas dos vários doces. As 3 primeiras restrições representam as metas do modelo, sendo a primeira uma meta de lucro mínimo, a segunda de uma meta de manter o atual número de empregados, e a terceira de uma meta de investimento máximo; estas estão representadas de acordo com a produção de cada doce que cada meta contribui para. Ou seja, por exemplo, o lucro vai ser:
 $$
 \text{lucro} = 12D_1 + 9D_2 + 5D_3 + \d1-
@@ -72,12 +72,233 @@ $$,
 sendo $D_i$ a produção do doce $i$ em milhares de \unit{\kilogram} e $\d1-$ o desvio negativo da meta de lucro. Se $\d1-$ for $0$, então a meta de lucro é cumprida.
 
 As seguintes 3 metas representam o máximo de produção do doce $D_1$, e os mínimos de produção dos doces $D_2$ e $D_3$, em milhares de \unit{\kilogram}. A penúltima restriçã indica a não negatividade da produção e dos desvios, e a última restrição indica que o desvio da meta de manter o atual número de empregados tem de ser um número inteiro, sendo que o número de empregados é um número inteiro. Esta última restrição indica também que $5D_1 + 2D_2 + 4D_3$ vai ser inteiro também. 
-
-Antes de apresentar um exemplo de função objetivo (a que vai ser aplicada em \ref{sec:b}); o enunciado refere os pesos de penalização de cada desvio. Enquanto que $\p1- = 5$, e $p3+ = 5$ são pesos explícitos e diretos, os pesos dados pelo agente de decisão para a segunda meta são para cada 5 trabalhadores. Como este é um problema linear, os pesos vão ser transformados para 1 trabalhador invés. Ou seja:
+Antes de apresentar um exemplo de função objetivo (a que vai ser aplicada na alínea \textit{b}); %aqui é suposto ser uma referência mas n percebo pq n funciona
+o enunciado refere os pesos de penalização de cada desvio. Enquanto que $\p1- = 5$, e $p3+ = 5$ são pesos explícitos e diretos, os pesos dados pelo agente de decisão para a segunda meta são para cada 5 trabalhadores. Como este é um problema linear, os pesos vão ser transformados para 1 trabalhador invés. Isto resulta no seguinte:
 $$
-\p2- = \frac{4}{5} = 0,8 \land \p2+ = \frac{10}{5} = 2
+\p2- = \frac{10}{5} = 2 \land \p2+ = \frac{4}{5} = 0,8
 $$
 
 Um exemplo de função objetivo que pode ser aplicada neste modelo é a soma dos desvios pesados, ou seja:
+\begin{align*}
+f\left(\mathbold{d^\pm}; \mathbold{p^\pm}\right) &= \sum{p_i^-d_i^- + p_i^+d_i^+} \\
+f\left(\d1-, \d2-, \d2+, \d3+; \p1-=5, \p2-=2, \p2+=0,8, \p3+=5\right) &= 5\d1- + 2\d2- + 0,8\d2+ + 5\d3+
+\end{align*}
 
-\section{b)} \label{sec:b}
+Nota-se que se apenas um dos desvios da meta 2 pode ter um valor positivo, ou seja: 
+$$
+\d2- > 0 \implies  \d2+ = 0 \land \d2+ > 0 \implies \d2- = 0
+$$
+\section{b)}
+Ao resolver o modelo desenvolvido em a), os seguintes resultado foi obtido:
+\begin{align*}
+  D_1  &=       6     \\
+  D_2  &\approx 5,269 \\
+  D_3  &\approx 1,115 \\
+  \d1- &=       0     \\
+  \d2- &=       15    \\
+  \d2+ &=       0     \\
+  \d3+ &\approx 10,269\\
+\end{align*}
+
+Ou seja, o modelo indica que:
+\begin{itemize}
+  \item A produção do doce $D_1$ deve ser de \qty{6000}{\kilo\grams}, atingindo o seu máximo de produção;
+  \item A produção do doce $D_2$ deve ser de \qty{5269}{\kilo\grams}, muito acima do seu mínimo de produção;
+  \item A produção do doce $D_3$ deve ser de \qty{1115}{\kilo\grams}, ligeiramente acima do seu mínimo de produção.
+\end{itemize}
+
+Com estes valores de produção,:
+\begin{itemize}
+  \item A meta de alcançar um lucro a longo prazo de pelo menos \qty{125000}{\geneuro} é cumprida;
+  \item A meta de manter o atual número de empregados não é cumprida, sendo que o modelo indica que devem ser despedidos 15 trabalhadores, para um total de 45 trabalhadores;
+  \item A meta de investimento máximo de \qty{55000}{\geneuro} não é cumprida, sendo necessário, de acordo com o modelo, um investimento de \qty{10269}{\geneuro} a mais, para um investimento de \qty{65269}{\geneuro}.
+\end{itemize}
+
+De certa forma, esta solução parece apropriada para as metas sugeridas, sendo que o lucro continua a ser alto, mesmo com o aumento de investimento, ainda que 15 empregados seja um número alto, devido aos pesos pequenos sugeridos pela Confeitaria. Este modelo, no entanto, apresenta metas com unidades diferentes (milhares de euros e empregados), o que pode levar à função objetivo apresentada em a) a não ser apropriada para o problema, tal sendo resolvido de tal forma nas propostas alternativas de c).
+
+\section{c)}
+
+Propostas alternativas do modelo desenvolvido em a) podem ser desenvolvidas de vários métodos. As que vou sugerir serão mudanças na função objetivo. 
+
+A primeira proposta irá mudar a função de soma dos desvios pesados para uma função de soma dos desvios percentuais pesados. Ou seja:
+$$
+f\left(\mathbold{d^\pm}; \mathbold{p^\pm}, \mathbold{t}\right) = \sum{\frac{p_i^-d_i^- + p_i^+d_i^+}{t_i}}
+$$
+, sendo $t_i$ os alvos das metas. Neste caso, $t_1 = 125, t_2 = 60, t_3 = 55$, e: 
+$$
+f\left(\mathbold{d^\pm}; \mathbold{p^\pm}, \mathbold{t}\right) = \frac{5\d1-}{125} + \frac{2\d2- + 0,8\d2+}{60} + \frac{5\d3+}{55}
+$$
+
+Resolvendo este modelo, obtém-se os seguintes resultados:
+\begin{align*}
+  D_1  &=       6     \\
+  D_2  &=       3     \\
+  D_3  &=       1     \\
+  \d1- &=       16,5  \\
+  \d2- &=       19    \\
+  \d2+ &=       0     \\
+  \d3+ &=       0,5   \\
+\end{align*}
+
+Este novo modelo indica que:
+\begin{itemize}
+  \item A produção do doce $D_1$ deve ser de \qty{6000}{\kilo\grams}, atingindo o seu máximo de produção;
+  \item A produção do doce $D_2$ deve ser de \qty{3000}{\kilo\grams}, \qty{1000}{\kilo\grams} acima do mínimo de produção;
+  \item A produção do doce $D_3$ deve ser de \qty{1000}{\kilo\grams}, atingindo o seu mínimo de produção.
+\end{itemize}
+
+Com estes valores de produção,:
+
+\begin{itemize}
+  \item A meta de alcançar um lucro a longo prazo de pelo menos \qty{125000}{\geneuro} não é cumprida, sendo que o modelo indica que o lucro será de \qty{108500}{\geneuro};
+  \item A meta de manter o atual número de empregados não é cumprida, sendo que o modelo indica que devem ser despedidos 19 trabalhadores, para um total de 41 trabalhadores;
+  \item A meta de investimento máximo de \qty{55000}{\geneuro} não é cumprida, sendo necessário, de acordo com o modelo, um investimento de \qty{500}{\geneuro} a mais, para um investimento de \qty{55500}{\geneuro}.
+\end{itemize}
+
+Este modelo, sem comparar com o anterior, parece também apropriados, sendo que, mesmo que desvie um bocado do lucro e precise de despedir um número significativo de empregados, praticamente mantém o investimento necessário.
+
+A segunda proposta seria usar a técnica \textit{MinMax}, que consiste em minimizar o maior desvio (neste caso percentual), ou seja:
+$$
+f\left(\mathbold{d^\pm}; \mathbold{p^\pm}, \mathbold{t}\right) = \max\left\{\frac{p_i^-d_i^- + p_i^+d_i^+}{t_i}\right\}
+$$
+
+Neste caso, a função objetivo seria:
+$$
+f\left(\mathbold{d^\pm}; \mathbold{p^\pm}, \mathbold{t}\right) = \max\left\{\frac{5\d1-}{125}, \frac{2\d2- + 0,8\d2+}{60}, \frac{5\d3+}{55}\right\}
+$$
+
+De forma a tornar este modelo linear, podemos transformar o anterior em um modelo em que a função objetivo se transforma na variável \textit{MinMax} $Q$, e adicionando as restrições que cada membro do conjunto terá de ser menor do que esta variável. Em suma, ao modelo serão adicionadas as seguintes restrições
+\begin{align*}
+  \frac{5\d1-}{125} &\leq Q \\
+  \frac{2\d2- + 0,8\d2+}{60} &\leq Q \\
+  \frac{5\d3+}{55} &\leq Q \\
+\end{align*}
+
+E a função objetivo será:
+$$
+f\left(\mathbold{d^\pm}; \mathbold{p^\pm}, \mathbold{t}\right) = Q
+$$
+
+Resolvendo este modelo, obtém-se os seguintes resultados:
+\begin{align*}
+  D_1  &=       6     \\
+  D_2  &=       2     \\
+  D_3  &=       4     \\
+  \d1- &=       15    \\
+  \d2- &=       10    \\
+  \d2+ &=       0     \\
+  \d3+ &=       17    \\
+\end{align*}
+Este novo modelo indica que:
+\begin{itemize}
+  \item A produção do doce $D_1$ deve ser de \qty{6000}{\kilo\grams}, atingindo o seu máximo de produção;
+  \item A produção do doce $D_2$ deve ser de \qty{2000}{\kilo\grams}, atingindo o seu mínimo de produção;
+  \item A produção do doce $D_3$ deve ser de \qty{4000}{\kilo\grams}, \qty{3000}{\kilo\grams} acima do mínimo de produção.
+\end{itemize}
+
+Com estes valores de produção,:
+
+\begin{itemize}
+  \item A meta de alcançar um lucro a longo prazo de pelo menos \qty{125000}{\geneuro} não é cumprida, sendo que o modelo indica que o lucro será de \qty{100000}{\geneuro};
+  \item A meta de manter o atual número de empregados não é cumprida, sendo que o modelo indica que devem ser despedidos 10 trabalhadores, para um total de 50 trabalhadores;
+  \item A meta de investimento máximo de \qty{55000}{\geneuro} não é cumprida, sendo necessário, de acordo com o modelo, um investimento de \qty{17000}{\geneuro} a mais, para um investimento total de \qty{72000}{\geneuro}.
+\end{itemize}
+
+
+Este modelo, sem comparar com os anteriores, não parece tão apropriado, snedo que nenhuma das metas é cumprida e elas todas são desviadas significativamente. Ainda assim, pode ser uma possibilidade e pode ser adequado se o agente de decisão assim o decidir, sendo que pode ser considerado um modelo mais equilibrado.
+
+\section{d)}
+
+Na tabela \ref{tab:results} estão resumidos os resultados dos desvios dos modelos.
+
+\begin{table}[H]
+  \centering
+  \caption{Resultados dos modelos}
+  \label{tab:results}
+  \setlength{\extrarowheight}{0pt}
+  \begin{tabulary}{\textwidth}{L | r r r r}
+    %toprule
+    função objetivo & \changealign{l}{$\d1-$} & \changealign{l}{$\d2-$} & \changealign{l}{$\d2+$} & \changealign{l}{$\d3+$} \\
+    \hline
+    Soma dos desvios & 0 & 15 & 0 & 10,269 \\
+    Soma dos desvios percentuais& 16,5 & 19 & 0 & 0,5 \\
+    \textit{MinMax}& 15 & 10 & 0 & 17 \\
+  \end{tabulary}
+\end{table}
+
+Com base nestes resultados, verifica-se que:
+
+\begin{itemize}
+  \item Não há planos de produção dominados, sendo que não há nenhum plano com todos os desvios menores do que os de outro plano;
+  \item Em nenhum dos planos é recomendado que sejam empregados mais trabalhodores; 
+  \item $\d1-$ é mais pequeno no modelo com função objetivo da soma dos desvios, $\d2-$ é mais pequeno no modelo com função objetivo de \textit{MinMax}, e $\d3+$ é mais pequeno no modelo com função objetivo da soma dos desvios percentuais;
+  \item Todos os modelos sugerem empregar um número considerável de empregados para poder cumprir as restrições de produção;
+\end{itemize}
+
+entre outras inúmeras conclusões que podem ser tiradas. Se tivesse eu de escolher, eu iria preferir o modelo com função objetivo da soma dos desvios, sendo que este parece conseguir a meta de lucro a longo prazo, ao contrário dos outros modelos, que se desvião consideravelmente comparado; e este encontra-se ser um meio termo em termos de desempregados e investimento extra.
+
+\section{e)}
+
+Para resolver este problema de níveis, foram feitos dois modelos para determinar os desvios apropriados, sendo estes uma composição dos modelos acimas. De seguida encontra-se o primeiro modelo.
+
+\begin{tabular}[t]{l r}
+  minimizar & $\displaystyle{\frac{2\d2- + 0,8\d2+}{60} + \frac{5\d3+}{55}}$ \\
+  sujeito a & \\
+            &
+  \begin{tabular}[t]{vr vc vr vc vr vc vr vc vr vc vl}
+    % R    & C & R     & C & R R   & C &   R   &   C     &    R     &  C   & L \\
+    % 12D_1  & + & 9D_2  & + & 5D_3  & + & \d1-  &         &          & \geq &125          \\
+    5D_1   & + & 2D_2  & + & 4D_3  & + & \d2-  & -       & \d2+     & =    &60           \\
+    5D_1   & + & 5D_2  & + & 8D_3  &   &       & -       & \d3+     & \leq &55           \\
+    D_1    &   &       &   &       &   &       &         &          & \leq &6            \\
+           &   &  D_2  &   &       &   &       &         &          & \geq &2            \\
+           &   &       &   &  D_3  &   &       &         &          & \geq &1            \\
+           &   &       &   &       &   &       & d_i^\pm,&  D_i     & \geq &0            \\
+           &   &       &   &       &   &       &         &  d_2^\pm & \in  &\mathbb{Z}  \\
+
+  \end{tabular}
+\end{tabular}
+
+As restrições são idênticas ao modelo sem níveis, com a única exceção que a meta de lucro a longo prazo não se encontra aqui. Sendo que esta se encontra com um nível de prioridade inferior, esta vai ser tratada depois de definir os desvios ótimos (para esta função objetivo) para as outras metas. A função objetivo escolhida foi a de soma de desvios percentuais, sendo que as metas não se encontram na mesma unidade. As outras funções objetivo possíveis também podem ser apropriadas de forma a encontrar soluções alternativas.
+
+Ao resolver este modelo, obtém-se os seguintes resultados:
+\begin{align*}
+  D_1  &=       6     \\
+  D_2  &=       2     \\
+  D_3  &=       1,75  \\
+  \d2- &=       19    \\
+  \d2+ &=       0     \\
+  \d3+ &=       0     \\
+\end{align*}
+Ou seja, para o primeiro nível, o modelo infica que a meta de investimento foi cumprida, enquanto que possa ser necessáio despedir 19 empregados
+
+Para passar para o próximo nível, vamos pegar nestes desvios e construir o próximo modelo apropriadamente, transformando as metas de nível superior em restrições. Em suma,:
+
+\begin{tabular}[t]{l r}
+  minimizar & $\d1-$ \\
+  sujeito a & \\
+            &
+  \begin{tabular}[t]{vr vc vr vc vr vc vr vc vl}
+    % R    & C & R     & C & R R   & C &   R   &   C     &    R     &  C   & L \\
+    12D_1  & + & 9D_2  & + & 5D_3  & +       & \d1-     & \geq &125         \\
+    5D_1   & + & 2D_2  & + & 4D_3  & +       &  19      & =    &60          \\
+    5D_1   & + & 5D_2  & + & 8D_3  &         &          & \leq &55          \\
+    D_1    &   &       &   &       &         &          & \leq &6           \\
+           &   &  D_2  &   &       &         &          & \geq &2           \\
+           &   &       &   &  D_3  &         &          & \geq &1           \\
+           &   &       &   &       & \d1-,   &  D_i     & \geq &0            \\
+
+  \end{tabular}
+\end{tabular}
+
+A função objetivo, como o modelo apenas tem uma meta este é um problema linear, não precisa de pesos. Ao resolver este modelo, e adicionando-se os desvios anteriores, obtém-se os seguintes resultados:
+\begin{align*}
+  D_1  &=       6     \\
+  D_2  &=       3     \\
+  D_3  &=       1,25  \\
+  \d1- &=       19,75 \\
+  \d2- &=       19    \\
+  \d2+ &=       0     \\
+  \d3+ &=       0     \\
+\end{align*}
+Estes resultados inficam que a meta de lucro a longo prazo não foi cumprida, com um lucro previsto de \qty{105250}{\geneuro}. Esta solução parece apropriado para o novo problema e para os níveis de prioridade sugeridas pelo agente de decisão.
