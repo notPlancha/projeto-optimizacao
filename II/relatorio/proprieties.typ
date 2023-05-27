@@ -38,7 +38,8 @@
   ]
   //still don't understand this syntax
 
-  #set math.equation(numbering: "(1)", block: true) //not working
+  #set math.equation(block: true) //not working
+  #set math.mat(delim: "[")
   #doc
 ]
 

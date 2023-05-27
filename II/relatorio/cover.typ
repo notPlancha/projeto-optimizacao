@@ -39,7 +39,7 @@
 ]
 #v(3cm)
 #par(leading: 0.3cm)[
-  #text(16pt)[26 Maio 2023]\
+  #text(16pt)[27 Maio 2023]\
   #text(16pt)[Versão 1.0.0]
 ]
 #v(3cm)
