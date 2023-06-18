@@ -6,12 +6,11 @@ authors = ["notPlancha <andre.plancha@hotmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
-ipython = "^8.13.2"
+python = ">=3.8,<3.12"
 jupyter = "^1.0.0"
 numpy = "^1.24.3"
-plotnine = "^0.12.1"
-pandas = "^2.0.1"
+pandas = "^2.0.2"
+plotnine = "^0.12"
 
 
 [build-system]
